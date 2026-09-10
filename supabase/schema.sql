@@ -274,6 +274,13 @@ for update using (
   )
 );
 
+create policy "Transactions are deletable by team lead or admin" on public.transactions
+for delete using (
+  auth.uid() is not null and exists (
+    select 1 from public.profiles where id = auth.uid() and role in ('team_lead', 'admin')
+  )
+);
+
 create policy "Finance records are viewable by finance/admin" on public.transaction_payments
 for select using (
   auth.uid() is not null and exists (

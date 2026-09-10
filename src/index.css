@@ -122,7 +122,8 @@ textarea { resize: vertical; }
 .full-width { width: 100%; }
 
 .primary-button,
-.secondary-button {
+.secondary-button,
+.danger-button {
   border: none;
   border-radius: 12px;
   padding: 0.82rem 1.15rem;
@@ -131,7 +132,8 @@ textarea { resize: vertical; }
 }
 
 .primary-button:hover,
-.secondary-button:hover { transform: translateY(-1px); }
+.secondary-button:hover,
+.danger-button:hover { transform: translateY(-1px); }
 
 .primary-button {
   background: linear-gradient(135deg, var(--primary), var(--primary-deep));
@@ -141,6 +143,11 @@ textarea { resize: vertical; }
 .secondary-button {
   background: rgba(59, 130, 246, 0.12);
   color: var(--primary-deep);
+}
+
+.danger-button {
+  background: rgba(239, 68, 68, 0.12);
+  color: #b91c1c;
 }
 
 .app-shell {

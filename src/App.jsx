@@ -3,7 +3,8 @@ import { Area, AreaChart, Bar, BarChart, CartesianGrid, Pie, PieChart, Responsiv
 import { fallbackProjectMaster } from './data/masterData'
 import './index.css'
 
-const STORAGE_KEY = 'sm_tracker_data_v1'
+const STORAGE_KEY = 'sm_tracker_data_v2'
+const LEGACY_STORAGE_KEY = 'sm_tracker_data_v1'
 const SESSION_KEY = 'sm_tracker_session_v1'
 
 const defaultUsers = [
@@ -70,6 +71,7 @@ function App() {
   const [data, setData] = useState(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY)
+      localStorage.removeItem(LEGACY_STORAGE_KEY)
       return saved ? sanitizeStoredData(JSON.parse(saved)) : emptyData
     } catch {
       return emptyData
@@ -295,6 +297,31 @@ function App() {
 
   const handleLogout = () => {
     setSession(null)
+  }
+
+  const handleDeleteTransaction = (transactionId) => {
+    if (currentUser?.role !== 'admin' && currentUser?.role !== 'team_lead') {
+      alert('Only team leads and admins can delete transactions.')
+      return
+    }
+
+    const transaction = data.transactions.find((item) => item.id === transactionId)
+    if (!transaction || !window.confirm(`Delete transaction ${transactionId}? This cannot be undone.`)) return
+
+    setData((prev) => ({
+      ...prev,
+      transactions: prev.transactions.filter((item) => item.id !== transactionId),
+      invoices: prev.invoices.filter((invoice) => invoice.transactionId !== transactionId),
+      payments: prev.payments.filter((payment) => payment.transactionId !== transactionId),
+      logs: [{
+        id: `LOG-${Date.now()}`,
+        actor: currentUser.name,
+        action: `Transaction deleted - ${transactionId}`,
+        time: new Date().toLocaleString('en-GB'),
+      }, ...prev.logs].slice(0, 50),
+    }))
+    setSelectedTransactionId(null)
+    setEditDraft(null)
   }
 
   const handleAddTransaction = (event) => {
@@ -1684,6 +1711,14 @@ function App() {
                             <button type="submit" className="primary-button">Upload invoice</button>
                           </div>
                         </form>
+                      )}
+
+                      {(currentUser.role === 'admin' || currentUser.role === 'team_lead') && (
+                        <div className="form-actions detail-actions">
+                          <button type="button" className="danger-button" onClick={() => handleDeleteTransaction(selectedTransaction.id)}>
+                            Delete transaction
+                          </button>
+                        </div>
                       )}
                     </>
                   )}
