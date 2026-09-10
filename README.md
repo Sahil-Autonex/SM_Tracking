@@ -19,10 +19,8 @@ If you are developing a production application, we recommend using TypeScript wi
 
 The workflow in `.github/workflows/vercel-deploy.yml` deploys the app to Vercel after every push to `main`. It can also be started manually from the GitHub Actions tab.
 
-Add these repository secrets in GitHub under **Settings > Secrets and variables > Actions**:
+Add this repository secret in GitHub under **Settings > Secrets and variables > Actions**:
 
 - `VERCEL_TOKEN`: a Vercel access token
-- `VERCEL_ORG_ID`: the Vercel team or account ID
-- `VERCEL_PROJECT_ID`: the Vercel project ID
 
-The Vercel project should use the repository root as its project directory. The workflow runs `npm ci`, `npm run build`, and then deploys the generated Vite output as a production deployment.
+The workflow is linked to the existing `sm-tracking` Vercel project and passes its verified team and project IDs directly. The Vercel project should use the repository root as its project directory. The workflow runs `npm ci`, `npm run build`, and then deploys the generated Vite output as a production deployment.
