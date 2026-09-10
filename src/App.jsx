@@ -9,7 +9,21 @@ const SESSION_KEY = 'sm_tracker_session_v1'
 
 const defaultUsers = [
   { id: 'admin-1', username: 'admin', password: 'admin123', role: 'admin', name: 'System Admin' },
-  { id: 'employee-1', username: 'Employee', password: '123456789', role: 'employee', name: 'Employee' },
+  { id: 'employee-01', username: 'Employee01', password: 'Emp01@123', role: 'employee', name: 'Employee 01' },
+  { id: 'employee-02', username: 'Employee02', password: 'Emp02@123', role: 'employee', name: 'Employee 02' },
+  { id: 'employee-03', username: 'Employee03', password: 'Emp03@123', role: 'employee', name: 'Employee 03' },
+  { id: 'employee-04', username: 'Employee04', password: 'Emp04@123', role: 'employee', name: 'Employee 04' },
+  { id: 'employee-05', username: 'Employee05', password: 'Emp05@123', role: 'employee', name: 'Employee 05' },
+  { id: 'employee-06', username: 'Employee06', password: 'Emp06@123', role: 'employee', name: 'Employee 06' },
+  { id: 'employee-07', username: 'Employee07', password: 'Emp07@123', role: 'employee', name: 'Employee 07' },
+  { id: 'employee-08', username: 'Employee08', password: 'Emp08@123', role: 'employee', name: 'Employee 08' },
+  { id: 'employee-09', username: 'Employee09', password: 'Emp09@123', role: 'employee', name: 'Employee 09' },
+  { id: 'employee-10', username: 'Employee10', password: 'Emp10@123', role: 'employee', name: 'Employee 10' },
+  { id: 'employee-11', username: 'Employee11', password: 'Emp11@123', role: 'employee', name: 'Employee 11' },
+  { id: 'employee-12', username: 'Employee12', password: 'Emp12@123', role: 'employee', name: 'Employee 12' },
+  { id: 'employee-13', username: 'Employee13', password: 'Emp13@123', role: 'employee', name: 'Employee 13' },
+  { id: 'employee-14', username: 'Employee14', password: 'Emp14@123', role: 'employee', name: 'Employee 14' },
+  { id: 'employee-15', username: 'Employee15', password: 'Emp15@123', role: 'employee', name: 'Employee 15' },
   { id: 'teamlead-1', username: 'Lead', password: 'lead123', role: 'team_lead', name: 'Team Lead' },
   { id: 'finance-1', username: 'Finance', password: 'Fin@SM!9', role: 'finance', name: 'Finance Team' },
 ]
@@ -50,7 +64,7 @@ const navMap = {
   admin: ['Dashboard', 'Transactions', 'Invoices', 'Payments', 'Approvals', 'Logs'],
   finance: ['Dashboard', 'Transactions', 'Invoices', 'Payments', 'Logs'],
   team_lead: ['Dashboard', 'Approvals', 'Log', 'Log history'],
-  employee: ['Log', 'Log history'],
+  employee: ['Log', 'Log history', 'Change password'],
 }
 
 function formatCurrency(value) {
@@ -1389,31 +1403,37 @@ function App() {
               </form>
             </section>
 
-            {currentUser.role === 'employee' && (
-              <section className="panel form-panel">
-                <form onSubmit={handlePasswordChange} className="password-form mt-16">
-                  <h3>Change password</h3>
-                  <div className="field-row">
-                    <label>
-                      Current password
-                      <input type="password" value={passwordForm.current} onChange={(event) => setPasswordForm({ ...passwordForm, current: event.target.value })} />
-                    </label>
-                    <label>
-                      New password
-                      <input type="password" value={passwordForm.next} onChange={(event) => setPasswordForm({ ...passwordForm, next: event.target.value })} />
-                    </label>
-                    <label>
-                      Confirm password
-                      <input type="password" value={passwordForm.confirm} onChange={(event) => setPasswordForm({ ...passwordForm, confirm: event.target.value })} />
-                    </label>
-                  </div>
-                  <div className="form-actions">
-                    <button type="submit" className="secondary-button">Update password</button>
-                  </div>
-                </form>
-              </section>
-            )}
           </>
+        )}
+
+        {activeTab === 'Change password' && currentUser.role === 'employee' && (
+          <section className="panel form-panel">
+            <div className="panel-header-row compact">
+              <div>
+                <p className="eyebrow">account</p>
+                <h3>Change password</h3>
+              </div>
+            </div>
+            <form onSubmit={handlePasswordChange} className="password-form">
+              <div className="field-row">
+                <label>
+                  Current password
+                  <input type="password" value={passwordForm.current} onChange={(event) => setPasswordForm({ ...passwordForm, current: event.target.value })} />
+                </label>
+                <label>
+                  New password
+                  <input type="password" value={passwordForm.next} onChange={(event) => setPasswordForm({ ...passwordForm, next: event.target.value })} />
+                </label>
+                <label>
+                  Confirm password
+                  <input type="password" value={passwordForm.confirm} onChange={(event) => setPasswordForm({ ...passwordForm, confirm: event.target.value })} />
+                </label>
+              </div>
+              <div className="form-actions">
+                <button type="submit" className="secondary-button">Update password</button>
+              </div>
+            </form>
+          </section>
         )}
 
         {(activeTab === 'Log history' || activeTab === 'Logs') && (

@@ -14,3 +14,15 @@ The React Compiler is not enabled on this template because of its impact on dev 
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+## Deploy to Vercel
+
+The workflow in `.github/workflows/vercel-deploy.yml` deploys the app to Vercel after every push to `main`. It can also be started manually from the GitHub Actions tab.
+
+Add these repository secrets in GitHub under **Settings > Secrets and variables > Actions**:
+
+- `VERCEL_TOKEN`: a Vercel access token
+- `VERCEL_ORG_ID`: the Vercel team or account ID
+- `VERCEL_PROJECT_ID`: the Vercel project ID
+
+The Vercel project should use the repository root as its project directory. The workflow runs `npm ci`, `npm run build`, and then deploys the generated Vite output as a production deployment.
